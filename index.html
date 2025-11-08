@@ -98,6 +98,10 @@
 
     <label for="nationalId">National ID:</label>
     <input type="text" id="nationalId" placeholder="Enter your National ID">
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter your password">
+
     <button onclick="fetchUser()">Check Details</button>
 
     <div id="userDetails">
@@ -124,11 +128,12 @@
 
     async function fetchUser() {
       const nationalId = document.getElementById("nationalId").value.trim();
+      const password = document.getElementById("password").value.trim();
       document.getElementById("message").style.display = "none";
       document.getElementById("userDetails").style.display = "none";
 
-      if (!nationalId) {
-        showMessage("❌ Please enter your National ID.", "error");
+      if (!nationalId || !password) {
+        showMessage("❌ Please enter both National ID and Password.", "error");
         return;
       }
 
@@ -138,7 +143,7 @@
         const res = await fetch(WORKER_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "fetchUser", nationalId: nationalId })
+          body: JSON.stringify({ action: "fetchUser", nationalId: nationalId, password: password })
         });
         const data = await res.json();
 
@@ -157,6 +162,7 @@
 
     async function convertEarnings() {
       const nationalId = document.getElementById("nationalId").value.trim();
+      const password = document.getElementById("password").value.trim();
       const amount = document.getElementById("amount").value.trim();
       document.getElementById("message").style.display = "none";
 
@@ -171,7 +177,7 @@
         const res = await fetch(WORKER_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "convertEarnings", nationalId: nationalId, amount: amount })
+          body: JSON.stringify({ action: "convertEarnings", nationalId: nationalId, password: password, amount: amount })
         });
         const data = await res.json();
 
